@@ -1,11 +1,12 @@
 package main
 
 import (
+	"book-recommend/views"
 	"fmt"
+	_ "github.com/mattn/go-sqlite3"
 	"log"
 	"net/http"
 	"strings"
-	_"github.com/mattn/go-sqlite3"
 )
 
 func sayHello(w http.ResponseWriter, r *http.Request){
@@ -21,17 +22,10 @@ func sayHello(w http.ResponseWriter, r *http.Request){
 	fmt.Fprint(w, "welcome to book-recommend!")
 }
 
-func UserRegister(w http.ResponseWriter, r *http.Request){
-	r.ParseForm()
-	username := r.Form.Get("username")
-	password := r.Form.Get("password")
-	info := r.Form.Get("info")
-
-}
 
 func main(){
 	http.HandleFunc("/",sayHello)
-	http.HandleFunc("/user.register", UserRegister)
+	http.HandleFunc("/user.register", views.Register)
 	err := http.ListenAndServe(":8890", nil)
 
 	if err != nil{

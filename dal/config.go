@@ -8,7 +8,7 @@ import (
 
 
 func get_conn()(db *gorm.DB, err error){
-	db, err = gorm.Open("sqlite3", "db/book-commend.db")
+	db, err = gorm.Open("sqlite3", "./book-commend.db")
 	if err != nil{
 		log.Fatal(err)
 		return db, err
@@ -18,9 +18,11 @@ func get_conn()(db *gorm.DB, err error){
 
 var db_conn *gorm.DB
 
-func __int__(){
+func init(){
 	db_conn, _ = get_conn()
+	log.Println("check database  init")
 	if !db_conn.HasTable(&User{}){
-		db_conn.Set("gorm:table_options", "ENGINE=InnoDB").CreateTable(&User{})
+		db_conn.CreateTable(&User{})
+		log.Println("user table create success")
 	}
 }
